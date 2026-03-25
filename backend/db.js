@@ -2,7 +2,7 @@ const initSqlJs = require('sql.js')
 const path = require('path')
 const fs = require('fs')
 
-const DB_DIR = path.join(__dirname, 'data')
+const DB_DIR = process.env.RAILWAY_VOLUME_MOUNT_PATH || process.env.DATA_DIR || path.join(__dirname, 'data')
 const DB_PATH = path.join(DB_DIR, 'gastos.db')
 
 if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true })
