@@ -65,8 +65,11 @@ export default function StatusBar({ stats, currency = 'S/' }) {
                 <p className="font-display font-800 text-accent-red text-2xl tracking-tight">
                   NO deberías gastar más hoy
                 </p>
-                <p className="text-paper-soft/40 text-sm font-body mt-1">
+                <p className="text-paper-soft/40 text-sm font-body mt-1 mb-2">
                   Gastaste todo tu ingreso del día
+                </p>
+                <p className="amount-display font-display font-800 text-4xl tracking-tight text-accent-red">
+                  {realRemaining < 0 ? '− ' : ''}{currency} {Math.abs(realRemaining).toFixed(2)}
                 </p>
               </div>
             ) : eatingSavings ? (
@@ -132,7 +135,7 @@ export default function StatusBar({ stats, currency = 'S/' }) {
             </p>
           </div>
           <div className="bg-ink-muted/50 rounded-xl p-3">
-            <p className="text-paper-soft/30 text-xs mb-0.5">Disponible</p>
+            <p className="text-paper-soft/30 text-xs mb-0.5">Límite Diario</p>
             <p className="amount-display font-600 text-paper-soft text-sm">
               {currency} {available.toFixed(2)}
             </p>
