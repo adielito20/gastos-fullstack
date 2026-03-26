@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Settings, Download, RotateCcw, Moon, Sun, Check } from 'lucide-react'
 
-export default function SettingsPanel({ settings, darkMode, onUpdate, onToggleDark, onExport, onReset, currency = 'S/' }) {
+export default function SettingsPanel({ settings, darkMode, onUpdate, onToggleDark, onExport, onReset, onResetAll, currency = 'S/' }) {
   const [savingsRate, setSavingsRate] = useState(settings.savingsRate)
   const [savingsGoal, setSavingsGoal] = useState(settings.savingsGoal)
   const [saved, setSaved] = useState(false)
@@ -99,7 +99,7 @@ export default function SettingsPanel({ settings, darkMode, onUpdate, onToggleDa
       </button>
 
       {/* Actions */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3 pb-3">
         <button
           onClick={onExport}
           className="flex items-center justify-center gap-2 bg-ink-soft rounded-2xl px-4 py-3 text-paper-soft/50 hover:text-paper-soft/80 transition-colors text-sm font-body"
@@ -109,14 +109,27 @@ export default function SettingsPanel({ settings, darkMode, onUpdate, onToggleDa
         </button>
         <button
           onClick={() => {
-            if (confirm('¿Resetear el día de hoy?')) onReset()
+            if (confirm('¿Resetear el día de hoy? (Borrará solo los gastos de hoy)')) onReset()
           }}
-          className="flex items-center justify-center gap-2 bg-ink-soft rounded-2xl px-4 py-3 text-accent-red/50 hover:text-accent-red transition-colors text-sm font-body"
+          className="flex items-center justify-center gap-2 bg-ink-soft rounded-2xl px-4 py-3 text-accent-yellow/70 hover:text-accent-yellow transition-colors text-sm font-body"
         >
           <RotateCcw size={14} />
-          Resetear
+          Reset Hoy
         </button>
       </div>
+
+      {/* Reset All */}
+      <button
+        onClick={() => {
+          if (confirm('⚠️ ¡ADVERTENCIA! ¿Estás seguro de que quieres BORRAR TODOS TUS DATOS? Se eliminarán absolutamente todos tus días, gastos y ahorros para siempre y volverás a cero.')) {
+            onResetAll()
+          }
+        }}
+        className="w-full flex items-center justify-center gap-2 bg-accent-red/10 border border-accent-red/20 rounded-2xl px-4 py-3.5 text-accent-red hover:bg-accent-red hover:text-white transition-colors text-sm font-display font-700"
+      >
+        <RotateCcw size={16} />
+        Borrar Todos Los Datos
+      </button>
     </div>
   )
 }

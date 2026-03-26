@@ -11,14 +11,14 @@ export default {
       },
       colors: {
         ink: {
-          DEFAULT: '#0a0a0a',
-          soft: '#1a1a1a',
-          muted: '#2a2a2a',
+          DEFAULT: 'var(--ink-default)',
+          soft: 'var(--ink-soft)',
+          muted: 'var(--ink-muted)',
         },
         paper: {
-          DEFAULT: '#f8f6f1',
-          soft: '#f0ede6',
-          muted: '#e8e4dc',
+          DEFAULT: 'var(--paper-default)',
+          soft: 'var(--paper-soft)',
+          muted: 'var(--paper-muted)',
         },
         accent: {
           green: '#00c896',

@@ -27,7 +27,7 @@ export default function App() {
     settings, days, darkMode, activeTab,
     connected, loading, error,
     init, setActiveTab, setIncome, addExpense, deleteExpense,
-    updateSettings, toggleDarkMode, exportData, resetToday, saveSurplus,
+    updateSettings, toggleDarkMode, exportData, resetToday, resetAll, saveSurplus,
     getTodayStats, getSavingsProgress, getWeeklyData, getDayStats,
   } = useStore()
 
@@ -77,7 +77,7 @@ export default function App() {
   }
 
   return (
-    <div className={`min-h-dvh flex flex-col ${darkMode ? 'bg-ink text-paper-DEFAULT' : 'bg-paper-DEFAULT text-ink'}`}>
+    <div className="min-h-dvh flex flex-col bg-ink text-paper-DEFAULT">
 
       {/* Header */}
       <header className="flex items-center justify-between px-5 pt-12 pb-4">
@@ -119,7 +119,7 @@ export default function App() {
               <QuickAction onAddIncome={setIncome} onAddExpense={addExpense} currentIncome={stats.income} currency={currency} />
               <SavingsCard stats={stats} progress={progress} currency={currency} />
               <SurplusCard stats={stats} onSaveSurplus={saveSurplus} currency={currency} />
-              <div className={`rounded-2xl p-4 ${darkMode ? 'bg-ink-soft' : 'bg-paper-soft'}`}>
+              <div className="rounded-2xl p-4 bg-ink-soft">
                 <div className="flex items-center justify-between mb-3">
                   <span className="font-display font-600 text-xs uppercase tracking-widest text-paper-soft/40">
                     Gastos de hoy
@@ -141,7 +141,7 @@ export default function App() {
               exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}
               className="space-y-4"
             >
-              <div className={`rounded-2xl p-5 ${darkMode ? 'bg-ink-soft' : 'bg-paper-soft'}`}>
+              <div className="rounded-2xl p-5 bg-ink-soft">
                 <p className="font-display font-600 text-xs uppercase tracking-widest text-paper-soft/40 mb-4">Esta semana</p>
                 <WeeklyChart data={weekData} currency={currency} />
                 <div className="flex gap-4 mt-3 justify-center">
@@ -159,7 +159,7 @@ export default function App() {
                   { label: 'Gastos', value: weekData.reduce((s,d) => s+d.gastos, 0), color: 'text-accent-red' },
                   { label: 'Ahorro', value: weekData.reduce((s,d) => s+d.ahorro, 0), color: 'text-accent-blue' },
                 ].map(item => (
-                  <div key={item.label} className={`rounded-2xl p-3 ${darkMode ? 'bg-ink-soft' : 'bg-paper-soft'}`}>
+                  <div key={item.label} className="rounded-2xl p-3 bg-ink-soft">
                     <p className="text-paper-soft/30 text-xs font-body mb-1">{item.label}</p>
                     <p className={`font-mono font-700 text-sm ${item.color}`}>{currency} {item.value.toFixed(0)}</p>
                   </div>
@@ -186,7 +186,7 @@ export default function App() {
               <SettingsPanel
                 settings={settings} darkMode={darkMode}
                 onUpdate={updateSettings} onToggleDark={toggleDarkMode}
-                onExport={exportData} onReset={resetToday} currency={currency}
+                onExport={exportData} onReset={resetToday} onResetAll={resetAll} currency={currency}
               />
             </motion.div>
           )}
@@ -195,13 +195,13 @@ export default function App() {
       </main>
 
       {/* Bottom nav */}
-      <nav className={`fixed bottom-0 left-0 right-0 ${darkMode ? 'bg-ink/90' : 'bg-paper-DEFAULT/90'} backdrop-blur-xl border-t ${darkMode ? 'border-white/6' : 'border-black/6'}`}>
+      <nav className="fixed bottom-0 left-0 right-0 bg-ink/90 backdrop-blur-xl border-t border-white/6">
         <div className="flex items-center justify-around px-2 py-2">
           {NAV_ITEMS.map(({ id, icon: Icon, label }) => {
             const active = activeTab === id
             return (
               <motion.button key={id} onClick={() => setActiveTab(id)}
-                className={`flex flex-col items-center gap-1 px-4 py-2 rounded-2xl transition-colors ${active ? (darkMode ? 'text-paper-DEFAULT' : 'text-ink') : 'text-paper-soft/30'}`}
+                className={`flex flex-col items-center gap-1 px-4 py-2 rounded-2xl transition-colors ${active ? 'text-paper-DEFAULT' : 'text-paper-soft/30'}`}
                 whileTap={{ scale: 0.9 }}
               >
                 <div className="relative">

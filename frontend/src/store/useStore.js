@@ -168,6 +168,11 @@ export const useStore = create((set, get) => ({
     catch (e) { console.error(e) }
   },
 
+  resetAll: async () => {
+    try { await apiFetch('DELETE', '/api/reset-all') }
+    catch (e) { console.error(e) }
+  },
+
   exportData: () => window.open(API_URL + '/api/export', '_blank'),
 
   toggleDarkMode: () => set((s) => {

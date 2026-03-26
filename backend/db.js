@@ -135,7 +135,13 @@ function resetDay(date) {
   run('UPDATE days SET income=0, manual_savings=0 WHERE date=?', [date])
 }
 
+function resetAll() {
+  run('DELETE FROM expenses')
+  run('DELETE FROM days')
+  run('UPDATE settings SET savings_rate=20, savings_goal=300, currency="S/" WHERE id=1')
+}
+
 module.exports = {
   initDb, getSettings, updateSettings, getFullState,
-  setIncome, addExpense, deleteExpense, saveSurplus, resetDay
+  setIncome, addExpense, deleteExpense, saveSurplus, resetDay, resetAll
 }

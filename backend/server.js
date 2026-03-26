@@ -4,7 +4,7 @@ const { Server } = require('socket.io')
 const cors = require('cors')
 const {
   initDb, getSettings, updateSettings, getFullState,
-  setIncome, addExpense, deleteExpense, saveSurplus, resetDay
+  setIncome, addExpense, deleteExpense, saveSurplus, resetDay, resetAll
 } = require('./db')
 
 const app = express()
@@ -57,6 +57,11 @@ app.post('/api/days/:date/surplus', (req, res) => {
 
 app.delete('/api/days/:date', (req, res) => {
   try { resetDay(req.params.date); broadcastState(); res.json({ ok: true }) }
+  catch (e) { res.status(500).json({ error: e.message }) }
+})
+
+app.delete('/api/reset-all', (req, res) => {
+  try { resetAll(); broadcastState(); res.json({ ok: true }) }
   catch (e) { res.status(500).json({ error: e.message }) }
 })
 

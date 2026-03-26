@@ -16,15 +16,38 @@
   body {
     margin: 0;
     padding: 0;
-    background: #0a0a0a;
-    color: #f8f6f1;
+    background: var(--ink-default);
+    color: var(--paper-default);
     min-height: 100dvh;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
+  /* LIGHT MODE (Default) */
+  /* Reversing the names so that components using "bg-ink" (which implies dark) will actually get light colors when not in dark mode */
   :root {
+    --ink-default: #f8f6f1;   /* Used to be paper */
+    --ink-soft: #f0ede6;
+    --ink-muted: #e8e4dc;
+    
+    --paper-default: #0a0a0a; /* Used to be ink */
+    --paper-soft: #1a1a1a;
+    --paper-muted: #2a2a2a;
+    
     --status-color: #00c896;
+  }
+
+  /* DARK MODE (.dark class on html) */
+  /* Here ink means dark colors, paper means light colors */
+  :root.dark {
+    --ink-default: #0a0a0a;
+    --ink-soft: #1a1a1a;
+    --ink-muted: #2a2a2a;
+    
+    --paper-default: #f8f6f1;
+    --paper-soft: #f0ede6;
+    --paper-muted: #e8e4dc;
   }
 
   input[type="number"]::-webkit-inner-spin-button,
