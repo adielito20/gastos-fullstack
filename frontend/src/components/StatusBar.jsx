@@ -9,16 +9,15 @@ export default function StatusBar({ stats, currency = 'S/' }) {
   const config = getStatusConfig(status)
 
   const isBlocked = status === 'blocked'
-  const isDanger  = status === 'danger' || status === 'blocked'
+  const isDanger = status === 'danger' || status === 'blocked'
   const eatingSavings = overspent > 0
 
   // What's really left to spend (negative when eating savings)
   const realRemaining = available - totalExpenses
 
   return (
-    <div className={`relative rounded-2xl overflow-hidden transition-all duration-500 ${
-      isDanger ? 'glow-red' : status === 'warning' ? 'glow-yellow' : status === 'safe' ? 'glow-green' : ''
-    }`}>
+    <div className={`relative rounded-2xl overflow-hidden transition-all duration-500 ${isDanger ? 'glow-red' : status === 'warning' ? 'glow-yellow' : status === 'safe' ? 'glow-green' : ''
+      }`}>
       <div className={`absolute inset-0 transition-colors duration-500 ${isBlocked ? 'bg-accent-red/8' : 'bg-ink-soft'}`} />
 
       <div className={`relative p-5 ${isBlocked ? 'blocked-state' : ''}`}>
@@ -27,11 +26,10 @@ export default function StatusBar({ stats, currency = 'S/' }) {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <motion.div
-              className={`w-2 h-2 rounded-full ${
-                status === 'safe' ? 'bg-accent-green' :
-                status === 'warning' ? 'bg-accent-yellow' :
-                isDanger ? 'bg-accent-red' : 'bg-ink-muted'
-              }`}
+              className={`w-2 h-2 rounded-full ${status === 'safe' ? 'bg-accent-green' :
+                  status === 'warning' ? 'bg-accent-yellow' :
+                    isDanger ? 'bg-accent-red' : 'bg-ink-muted'
+                }`}
               animate={isDanger ? { scale: [1, 1.4, 1] } : {}}
               transition={{ repeat: Infinity, duration: 1 }}
             />
@@ -88,9 +86,8 @@ export default function StatusBar({ stats, currency = 'S/' }) {
             ) : (
               <>
                 <p className="text-paper-soft/40 text-xs font-body mb-1">Puedes gastar</p>
-                <p className={`amount-display font-display font-700 text-4xl tracking-tight ${
-                  status === 'idle' ? 'text-paper-soft/30' : config.color
-                }`}>
+                <p className={`amount-display font-display font-700 text-4xl tracking-tight ${status === 'idle' ? 'text-paper-soft/30' : config.color
+                  }`}>
                   {currency} {realRemaining.toFixed(2)}
                 </p>
               </>

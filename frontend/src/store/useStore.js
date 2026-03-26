@@ -114,7 +114,8 @@ export const useStore = create((set, get) => ({
     return Array.from({ length: 7 }, (_, i) => {
       const d = new Date()
       d.setDate(d.getDate() - (6 - i))
-      const key = d.toISOString().split('T')[0]
+      const offset = d.getTimezoneOffset() * 60000
+      const key = new Date(d.getTime() - offset).toISOString().split('T')[0]
       const day = days[key]
       if (!day) return { day: d.toLocaleDateString('es-PE', { weekday: 'short' }), ingresos: 0, gastos: 0, ahorro: 0, key }
       const planned = day.income * (settings.savingsRate / 100)

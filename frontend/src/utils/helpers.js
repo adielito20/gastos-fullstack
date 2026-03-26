@@ -1,5 +1,7 @@
 export const getTodayKey = () => {
-  return new Date().toISOString().split('T')[0]
+  const d = new Date()
+  const offset = d.getTimezoneOffset() * 60000
+  return new Date(d.getTime() - offset).toISOString().split('T')[0]
 }
 
 export const formatCurrency = (amount, currency = 'S/') => {
@@ -20,7 +22,8 @@ export const formatDateShort = (dateStr) => {
   const today = getTodayKey()
   const yesterday = new Date()
   yesterday.setDate(yesterday.getDate() - 1)
-  const yKey = yesterday.toISOString().split('T')[0]
+  const offset = yesterday.getTimezoneOffset() * 60000
+  const yKey = new Date(yesterday.getTime() - offset).toISOString().split('T')[0]
 
   if (dateStr === today) return 'Hoy'
   if (dateStr === yKey) return 'Ayer'

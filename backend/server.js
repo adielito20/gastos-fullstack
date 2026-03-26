@@ -67,7 +67,10 @@ app.delete('/api/reset-all', (req, res) => {
 
 app.get('/api/export', (req, res) => {
   const state = getFullState()
-  res.setHeader('Content-Disposition', `attachment; filename="gastos-${new Date().toISOString().split('T')[0]}.json"`)
+  const d = new Date()
+  const offset = d.getTimezoneOffset() * 60000
+  const localDateStr = new Date(d.getTime() - offset).toISOString().split('T')[0]
+  res.setHeader('Content-Disposition', `attachment; filename="gastos-${localDateStr}.json"`)
   res.json({ ...state, exportedAt: new Date().toISOString() })
 })
 
