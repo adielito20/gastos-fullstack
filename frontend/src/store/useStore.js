@@ -35,13 +35,16 @@ function computeDayStats(day, settings) {
   const overspent = Math.max(0, totalExpenses - available)
   const autoSavings = Math.max(0, plannedSavings - overspent)
 
+  // Effective manual savings cannot exceed rawSurplus
+  const effectiveManualSavings = Math.max(0, Math.min(manualSavings, rawSurplus))
+
   // Surplus that hasn't been manually saved yet
-  const pendingSurplus = Math.max(0, rawSurplus - manualSavings)
+  const pendingSurplus = Math.max(0, rawSurplus - effectiveManualSavings)
 
   // Total real savings = auto savings + what user manually saved from surplus
-  const totalDaySavings = autoSavings + manualSavings
+  const totalDaySavings = autoSavings + effectiveManualSavings
 
-  const remaining = rawSurplus - manualSavings  // what's still spendable
+  const remaining = rawSurplus - effectiveManualSavings  // what's still spendable
   const usedPercent = day.income > 0 ? Math.min((totalExpenses / day.income) * 100, 100) : 0
 
   let status = 'idle'
@@ -103,7 +106,9 @@ export const useStore = create((set, get) => ({
       const overspent = Math.max(0, totalExp - available)
       const auto = Math.max(0, planned - overspent)
       const manual = d.manualSavings || 0
-      return sum + auto + manual
+      const rawSurplus = available - totalExp
+      const effectiveManual = Math.max(0, Math.min(manual, rawSurplus))
+      return sum + auto + effectiveManual
     }, 0)
     const percent = settings.savingsGoal > 0 ? Math.min((totalSaved / settings.savingsGoal) * 100, 100) : 0
     return { totalSaved, goal: settings.savingsGoal, percent }
@@ -124,11 +129,13 @@ export const useStore = create((set, get) => ({
       const overspent = Math.max(0, totalExp - available)
       const auto = Math.max(0, planned - overspent)
       const manual = day.manualSavings || 0
+      const rawSurplus = available - totalExp
+      const effectiveManual = Math.max(0, Math.min(manual, rawSurplus))
       return {
         day: d.toLocaleDateString('es-PE', { weekday: 'short' }),
         ingresos: day.income,
         gastos: totalExp,
-        ahorro: auto + manual,
+        ahorro: auto + effectiveManual,
         key,
       }
     })
