@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { io } from 'socket.io-client'
-import { getTodayKey } from '../utils/helpers'
+import { getTodayKey, toLocalIsoDate } from '../utils/helpers'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
 
@@ -119,8 +119,7 @@ export const useStore = create((set, get) => ({
     return Array.from({ length: 7 }, (_, i) => {
       const d = new Date()
       d.setDate(d.getDate() - (6 - i))
-      const offset = d.getTimezoneOffset() * 60000
-      const key = new Date(d.getTime() - offset).toISOString().split('T')[0]
+      const key = toLocalIsoDate(d)
       const day = days[key]
       if (!day) return { day: d.toLocaleDateString('es-PE', { weekday: 'short' }), ingresos: 0, gastos: 0, ahorro: 0, key }
       const planned = day.income * (settings.savingsRate / 100)

@@ -1,7 +1,12 @@
+export const toLocalIsoDate = (d) => {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 export const getTodayKey = () => {
-  const d = new Date()
-  const offset = d.getTimezoneOffset() * 60000
-  return new Date(d.getTime() - offset).toISOString().split('T')[0]
+  return toLocalIsoDate(new Date());
 }
 
 export const formatCurrency = (amount, currency = 'S/') => {
@@ -22,8 +27,7 @@ export const formatDateShort = (dateStr) => {
   const today = getTodayKey()
   const yesterday = new Date()
   yesterday.setDate(yesterday.getDate() - 1)
-  const offset = yesterday.getTimezoneOffset() * 60000
-  const yKey = new Date(yesterday.getTime() - offset).toISOString().split('T')[0]
+  const yKey = toLocalIsoDate(yesterday)
 
   if (dateStr === today) return 'Hoy'
   if (dateStr === yKey) return 'Ayer'
